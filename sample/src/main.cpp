@@ -20,6 +20,7 @@ int main(int argc, char* argv[])
         if (argc < 2)
         {
             std::cerr << "Not enough arguments given.\n";
+            return 1;
         }
 
         else
@@ -41,6 +42,7 @@ int main(int argc, char* argv[])
             if (!infile)
             {
                 std::cerr << "File " << argv[1] << " doesn't exist or isn't open for reading.\n";
+                return 1;
             }
 
             sample_size = atoi(argv[2]);
@@ -50,6 +52,7 @@ int main(int argc, char* argv[])
         else
         {
             std::cerr << "Not enough arguments given.\n";
+            return 1;
         }
     } 
 

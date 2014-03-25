@@ -1,0 +1,12 @@
+sample/
+├── bin
+│   ├── sample
+│   └── test
+├── data
+├── doc
+│   └── project_tree
+├── Makefile
+└── src
+    └── main.cpp
+
+4 directories, 5 files

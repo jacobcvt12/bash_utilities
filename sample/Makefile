@@ -1,2 +1,2 @@
-sample: ./src/main.cpp
-	g++ -o ./bin/sample ./src/main.cpp
+sample: ./src/main.cpp ./src/reservoir.cpp
+	g++ -std=c++11 -o bin/sample src/main.cpp src/reservoir.cpp -I.

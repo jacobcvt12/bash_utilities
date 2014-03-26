@@ -8,12 +8,11 @@ std::vector<std::string> reservoir(std::istream& fin, int sample_size)
     std::string line;
 
     int row_number = 0;
-
-    //typedef std::minstd_rand generator;
-    //generator seed;
-    //typedef std::uniform_int_distribution<long> distribution;
     int random_int;
 
+    std::mt19937 rng;
+    rng.seed(std::random_device()());
+   
     while (std::getline(fin, line))
     {
         if (row_number < sample_size)
@@ -23,9 +22,8 @@ std::vector<std::string> reservoir(std::istream& fin, int sample_size)
 
         else
         {
-            //distribution d(1, row_number);
-            //random_int = d(seed);
-            random_int = 0 + (rand() % (int)(row_number - 0 + 1));
+            std::uniform_int_distribution<std::mt19937::result_type> dist(0, row_number - 1);
+            random_int = dist(rng);
             
             if (random_int < sample_size)
             {

@@ -11,7 +11,8 @@ std::vector<std::string> reservoir(std::istream& fin, int sample_size)
     int random_int;
 
     std::mt19937 rng;
-    rng.seed(std::random_device()());
+    int seed = std::random_device()();
+    rng.seed(seed);
    
     while (std::getline(fin, line))
     {
@@ -34,11 +35,16 @@ std::vector<std::string> reservoir(std::istream& fin, int sample_size)
         row_number += 1;
     }
 
+    std::cerr << "Seed: " << seed << std::endl;
+
     if (row_number < sample_size)
     {
         std::cerr << "Sample size is larger than size of data\n" <<
             "Selecting all data.\n";
+        reservoir.resize(row_number);
     }
+
+    std::cerr << "Sampled " << reservoir.size() << " items of " << row_number;
 
     return reservoir;
 }

@@ -2,7 +2,11 @@
 #include <fstream>
 #include <string>
 #include <unistd.h>
+#include <getopt.h>
 #include "reservoir.hpp"
+
+// add in argument parsing
+// http://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html
 
 int main(int argc, char* argv[])
 {
@@ -10,11 +14,14 @@ int main(int argc, char* argv[])
     std::ifstream infile;  
 
     int sample_size;
+
+    std::string input_device;
     
     // file piped to program
     if (!isatty(fileno(stdin)))
     {
         input = &std::cin;
+        input_device = "stdin";
         
         if (argc < 2)
         {
@@ -35,6 +42,7 @@ int main(int argc, char* argv[])
         if (argc > 2)
         {
             infile.open(argv[1]);
+            input_device = argv[1];
             input = &infile;
 
             // check if argument is a file
@@ -56,6 +64,8 @@ int main(int argc, char* argv[])
     } 
 
     std::vector<std::string> sampled = reservoir(*input, sample_size);
+
+    std::cerr << " from " << input_device << std::endl;
 
     for (auto it = sampled.begin(); it != sampled.end(); ++it)
     {

@@ -1,24 +1,6 @@
 #include "reservoir.hpp"
+#include "comma.hpp"
 #include <random>
-
-#include <locale>
-#include <iomanip>
-
-class comma_numpunct : public std::numpunct<char>
-{
-    protected:
-        virtual char do_thousands_sep() const
-        {
-            return ',';
-        }
-
-        virtual std::string do_grouping() const
-        {
-            return "\03";
-        }
-};
-
-// the above portion should be moved to it's own hpp, cpp files
 
 std::vector<std::string> reservoir(std::istream& fin, int sample_size)
 {

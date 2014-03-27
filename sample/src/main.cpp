@@ -3,6 +3,7 @@
 #include <string>
 #include <unistd.h>
 #include <getopt.h>
+#include <stdlib.h>
 #include "reservoir.hpp"
 
 // add in argument parsing

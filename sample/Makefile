@@ -1,15 +1,19 @@
-sample: src/main.o src/reservoir.o src/comma.o
-	g++ -std=c++0x -g src/comma.o src/reservoir.o src/main.o \
-		-lm -o bin/sample -O3
+OBJS = src/main.o src/reservoir.o src/comma.o
+CC = g++
+CFLAGS = -std=c++0x -c -g -O3
+LFLAGS = -std=c++0x -g -O3
 
-main.o: src/main.cpp src/reservoir.hpp
-	g++ -std=c++0x -g -c src/main.cpp -o src/reservoir.o -O3
+sample: $(OBJS)
+	$(CC) $(LFLAGS) $(OBJS) -o bin/sample
 
-reservoir.o: src/reservoir.cpp src/reservoir.hpp
-	g++ -std=c++0x -g -c src/reservoir.cpp -o src/reservoir.o -O3
+src/main.o: src/reservoir.hpp src/main.cpp 
+	$(CC) $(CFLAGS) src/main.cpp -o src/main.o
 
-comma.o: src/comma.cpp src/comma.hpp
-	g++ -std=c++0x -g -c src/comma.cpp -o src/comma.o -O3
+src/reservoir.o: src/reservoir.hpp src/reservoir.cpp 
+	$(CC) $(CFLAGS) src/reservoir.cpp -o src/reservoir.o
+
+src/comma.o: src/comma.hpp src/comma.cpp 
+	$(CC) $(CFLAGS) src/comma.cpp -o src/comma.o
 
 clean:
 	rm -rf src/*.o bin/sample

@@ -2,7 +2,7 @@
 #include "comma.hpp"
 #include <random>
 
-std::vector<std::string> reservoir(std::istream& fin, int sample_size)
+std::vector<std::string> reservoir(std::istream& fin, int sample_size, int header_flag)
 {
     // initialize vector of size sample_size
     std::vector<std::string> reservoir (sample_size);
@@ -14,6 +14,13 @@ std::vector<std::string> reservoir(std::istream& fin, int sample_size)
     std::mt19937 rng;
     int seed = std::random_device()();
     rng.seed(seed);
+        
+    std::string header;
+
+    if (header_flag == 1)
+    {
+        std::getline(fin, header);
+    }
    
     while (std::getline(fin, line))
     {
@@ -55,6 +62,11 @@ std::vector<std::string> reservoir(std::istream& fin, int sample_size)
     }
 
     std::cerr << "Sampled " << reservoir.size() << " items of " << row_number;
+
+    if (header_flag == 1)
+    {
+        reservoir.insert(reservoir.begin(), header);
+    }
 
     return reservoir;
 }

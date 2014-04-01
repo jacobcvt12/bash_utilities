@@ -17,6 +17,25 @@ int main(int argc, char* argv[])
     int sample_size;
 
     std::string input_device;
+
+    GetOpt getopt (argc, argv, "h:");
+
+
+    int header_flag = 0;
+    int c;
+    
+
+    while ((c = getopt(argc, argv, "h:")) != -1 )
+        switch (c)
+        {
+            case 'h':
+                header_flag = 1;
+                break;
+            default:
+                abort ();
+        }
+
+    std::cerr << "header flag is: " << header_flag << std::endl;
     
     // file piped to program
     if (!isatty(fileno(stdin)))
@@ -64,7 +83,7 @@ int main(int argc, char* argv[])
         }
     } 
 
-    std::vector<std::string> sampled = reservoir(*input, sample_size);
+    std::vector<std::string> sampled = reservoir(*input, sample_size, header_flag);
 
     std::cerr << " from " << input_device << std::endl;
 

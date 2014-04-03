@@ -17,6 +17,8 @@ std::vector<std::string> reservoir(std::istream& fin, int sample_size, int heade
         
     std::string header;
 
+    // if file as flagged as having a header,
+    // remove first line and store it in header
     if (header_flag == 1)
     {
         std::getline(fin, header);

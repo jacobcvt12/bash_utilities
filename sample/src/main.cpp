@@ -2,8 +2,6 @@
 #include <fstream>
 #include <string>
 #include <unistd.h>
-#include <stdlib.h>
-#include <getopt.h>
 #include "reservoir.hpp"
 
 // add in argument parsing
@@ -11,79 +9,80 @@
 
 int main(int argc, char* argv[])
 {
+    int sample_size;
+    int nflag = 0;
+    int hflag = 0;
+    int c;
+
+    while ((c = getopt(argc, argv, "hn:")) != -1)
+    switch(c)
+    {
+        case 'h':
+            hflag = 1;
+            break;
+        case 'n':
+            nflag = 1;
+            sample_size = atoi(optarg);
+            break;
+        case '?':
+            if (optopt == 'n')
+                std::cerr << "Option -n requires an argument.\n";
+            else
+                std::cerr << "Unknown option -" << optopt << std::endl;
+               
+            return 1;
+    }
+
+    if (nflag == 0)
+    {
+        std::cerr << "Must enter a sample size.\n";
+
+        return 1;
+    }
+
+
     std::istream* input;
     std::ifstream infile;  
-
-    int sample_size;
-
     std::string input_device;
-
-    GetOpt getopt (argc, argv, "h:");
-
-
-    int header_flag = 0;
-    int c;
-    
-
-    while ((c = getopt(argc, argv, "h:")) != -1 )
-        switch (c)
-        {
-            case 'h':
-                header_flag = 1;
-                break;
-            default:
-                abort ();
-        }
-
-    std::cerr << "header flag is: " << header_flag << std::endl;
     
     // file piped to program
     if (!isatty(fileno(stdin)))
     {
         input = &std::cin;
         input_device = "stdin";
-        
-        if (argc < 2)
-        {
-            std::cerr << "Not enough arguments given.\n";
-            return 1;
-        }
-
-        else
-        {
-            sample_size = atoi(argv[1]);
-        }
     }
 
     // file not piped to program
     else
     {
-        // check if there are arguments
-        if (argc > 2)
+        int index;
+        opterr = 0;
+        int file_counter = 0; // there should only be one file. error if more
+
+        for (index = optind; index < argc; index++)
         {
-            infile.open(argv[1]);
-            input_device = argv[1];
+            file_counter++;
+            if (file_counter != 1)
+            {
+                std::cerr << "Must supply one and only one file.\n";
+                return 1;
+            }
+
+            infile.open(argv[index]);
+            input_device = argv[index];
             input = &infile;
 
             // check if argument is a file
             if (!infile)
             {
-                std::cerr << "File " << argv[1] << " doesn't exist or isn't open for reading.\n";
+                std::cerr << "File " << argv[index] << " doesn't exist or isn't open for reading.\n";
                 return 1;
             }
 
-            sample_size = atoi(argv[2]);
         }
-
-        // no arguments given; error
-        else
-        {
-            std::cerr << "Not enough arguments given.\n";
-            return 1;
-        }
-    } 
-
-    std::vector<std::string> sampled = reservoir(*input, sample_size, header_flag);
+    }
+    
+    std::vector<std::string> sampled = reservoir(*input, sample_size, hflag);
 
     std::cerr << " from " << input_device << std::endl;
 

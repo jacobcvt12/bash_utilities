@@ -1,11 +1,12 @@
 #include <iostream>
+#include <stdio.h>
 #include <unistd.h>
 
 int main (int argc, char* argv[])
 {
 	int aflag = 0;
 	int bflag = 0;
-    std::string cvalue = NULL;
+    std::string cvalue = "";
     int c;
 	int index;
 
@@ -30,8 +31,7 @@ int main (int argc, char* argv[])
             return 1;
 	}
 
-	printf ("aflag = %d, bflag = %d, cvalue = %s\n",
-		   aflag, bflag, cvalue.c_str());
+	printf("aflag = %d, bflag = %d, cvalue = %s\n", aflag, bflag, cvalue.c_str());
 
 	for (index = optind; index < argc; index++)
 		printf ("Non-option argument %s\n", argv[index]);

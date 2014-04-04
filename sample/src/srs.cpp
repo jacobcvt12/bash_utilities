@@ -1,8 +1,8 @@
-#include "reservoir.hpp"
+#include "srs.hpp"
 #include "comma.hpp"
 #include <random>
 
-std::vector<std::string> reservoir(std::istream& fin, int sample_size, int header_flag)
+std::vector<std::string> srs(std::istream& fin, int sample_size, int header_flag)
 {
     // initialize vector of size sample_size
     std::vector<std::string> reservoir (sample_size);

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <unistd.h>
-#include "reservoir.hpp"
+#include "srs.hpp"
 
 // add in argument parsing
 // http://www.gnu.org/software/libc/manual/html_node/Example-of-Getopt.html
@@ -82,7 +82,7 @@ int main(int argc, char* argv[])
         }
     }
     
-    std::vector<std::string> sampled = reservoir(*input, sample_size, hflag);
+    std::vector<std::string> sampled = srs(*input, sample_size, hflag);
 
     std::cerr << " from " << input_device << std::endl;
 

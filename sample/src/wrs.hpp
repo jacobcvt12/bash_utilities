@@ -8,4 +8,6 @@
 std::vector<std::string> wrs(std::istream& fin, int sample_size, 
         int header_flag, int field_number, std::string delimiter);
 
+float weight(std::string str, int field_number, std::string delimiter);
+
 #endif

@@ -5,10 +5,10 @@
 
 class FishMoore {
     private:
-        int mSeed;
+        long mSeed;
 
     public:
-        void seed(int seed);
+        void seed(long seed);
         void rand_num();
 };
 

@@ -10,20 +10,32 @@
 int main(int argc, char* argv[])
 {
     int sample_size;
+    std::string delimiter = "|"; // assume delimiter is pipe
+    int weight_field = 1; // assume field with weights is second field
+    std::string method = "srs"; // assume method is srs
+
     int nflag = 0;
     int hflag = 0;
+
     int c;
 
-    while ((c = getopt(argc, argv, "hn:")) != -1)
+    while ((c = getopt(argc, argv, "d:hm:n:w:")) != -1)
     switch(c)
     {
+        case 'd':
+            delimiter = optarg;
+            break;
         case 'h':
             hflag = 1;
             break;
+        case 'm':
+            method = optarg;
         case 'n':
             nflag = 1;
             sample_size = atoi(optarg);
             break;
+        case 'w':
+            weight_field = atoi(optarg);
         case '?':
             if (optopt == 'n')
                 std::cerr << "Option -n requires an argument.\n";
@@ -38,6 +50,11 @@ int main(int argc, char* argv[])
         std::cerr << "Must enter a sample size.\n";
 
         return 1;
+    }
+
+    if (method != "srs" || method != "wrs")
+    {
+        std::cerr << "Method must be srs or wrs.\n";
     }
 
 

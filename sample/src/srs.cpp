@@ -42,7 +42,7 @@ std::vector<std::string> srs(std::istream& fin, int sample_size, int header_flag
             } 
         }
 
-        row_number += 1;
+        row_number++;
     }
 
     // this creates a new locale based on the current application default

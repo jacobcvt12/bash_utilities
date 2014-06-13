@@ -8,12 +8,12 @@ int main(int argc, char* argv[])
 
     if (argc > 1)
     {
-        seed = atoi(argv[2]);
+        seed = atol(argv[1]);
     }
 
     rng.seed(seed);
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < atoi(argv[2]); i++)
     {
         rng.rand_num();
     }

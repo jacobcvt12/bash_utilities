@@ -64,13 +64,10 @@ int main(int argc, char* argv[])
     }
 
 
-    // pointer to input device
-    std::istream* input; 
-
     if (!isatty(fileno(stdin)))
     {
         // file piped to program
-        input = &std::cin; // pass reference to stdin to input
+        std::istream& input = std::cin; // pass stdin to input
     }
 
     else
@@ -90,9 +87,6 @@ int main(int argc, char* argv[])
         // open file
         infile.open(argv[optind]);
 
-        // pass pointer to file to input
-        input = &infile;
-
         // check if argument is a file
         if (!infile)
         {
@@ -102,6 +96,9 @@ int main(int argc, char* argv[])
 
             return 1;
         }
+        
+        // pass file to input
+        std::istream& input = infile;
 
     }
     
@@ -110,7 +107,7 @@ int main(int argc, char* argv[])
     // sample must be smalled enough to fit into memory! Even 
     // though the initial data does not have to fit into
     // memory and is read from disk.
-    std::vector<std::string> sampled = srs(*input, sample_size, hflag);
+    std::vector<std::string> sampled = srs(input, sample_size, hflag);
 
     // loop over sample and print to stdout
     for (auto it = sampled.begin(); it != sampled.end(); ++it)

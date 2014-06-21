@@ -2,6 +2,10 @@
 #include <fstream>
 #include <string>
 #include <unistd.h>
+#include <stdlib.h>
+#include <boost/algorithm/string.hpp>
+#include <vector>
+#include "running_stats.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -37,14 +41,14 @@ int main(int argc, char* argv[])
             return 1;
     }
 
-    if (!isatty(fileno(stdin)))
-    {
-        // file piped to program
-        std::istream& input = std::cin; // pass stdin to input
-    }
-
-    else
-    {
+    //if (!isatty(fileno(stdin)))
+    //{
+        //// file piped to program
+        //std::istream& input = std::cin; // pass stdin to input
+    //} 
+    
+    //else
+    //{
         // file not piped to program
 
         if (argc - optind > 1)
@@ -72,8 +76,28 @@ int main(int argc, char* argv[])
         
         // pass file to input
         std::istream& input = infile;
+    //}
 
+    std::string line;
+    std::vector<std::string> string_vector;
+    double value;
+    
+    Stats field_one("Test Field");
+
+    while (std::getline(input, line))
+    {
+        boost::split(string_vector, line, boost::is_any_of(delimiter));
+        value = atof(string_vector[0].c_str());
+        field_one.Push(value);
     }
+
+    std::cout << "Summary of " << field_one.GetName() << std::endl;
+    std::cout << "\tRows: " << field_one.RowCount() << "\n\t" 
+              << "Mean: " << field_one.Mean() << "\n\t" 
+              << "Variance: " << field_one.Variance() << "\n\t"
+              << "Standard Deviation: " << field_one.StandardDeviation() << "\n\t"
+              << "Skewness: " << field_one.Skewness() << "\n\t"
+              << "Kurtosis: " << field_one.Kurtosis() << std::endl;
     
     return 0;
 }

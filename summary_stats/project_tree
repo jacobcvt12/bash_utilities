@@ -1,0 +1,18 @@
+sample/
+├── bin
+├── data
+│   └── marriott.txt
+├── doc
+│   ├── Random Sampling with a Reservior.pdf
+│   ├── Reservoir Sampling.pdf
+│   └── Weighted Random Sampling.pdf
+├── Makefile
+├── project_tree
+└── src
+    ├── comma.cpp
+    ├── comma.hpp
+    ├── main.cpp
+    ├── reservoir.cpp
+    └── reservoir.hpp
+
+4 directories, 11 files
